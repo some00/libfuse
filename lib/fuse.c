@@ -5097,13 +5097,13 @@ void fuse_destroy(struct fuse *f)
 	assert(list_empty(&f->partial_slabs));
 	assert(list_empty(&f->full_slabs));
 
-	while (fuse_modules) {
-		fuse_put_module(fuse_modules);
-	}
 	free(f->id_table.array);
 	free(f->name_table.array);
 	pthread_mutex_destroy(&f->lock);
 	fuse_session_destroy(f->se);
+	while (fuse_modules) {
+		fuse_put_module(fuse_modules);
+	}
 	free(f->conf.modules);
 	free(f);
 	fuse_delete_context_key();
